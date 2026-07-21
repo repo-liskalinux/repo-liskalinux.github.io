@@ -29,6 +29,12 @@
       "version": "1.0.0-1",
       "sha256": "e2f1778f1f265850506beebc00da04b7450843513aa6d764b3385cd51ded88db",
       "url": "https://github.com/repo-liskalinux/lkstrap/releases/download/stable/lkstrap-1.0.0-1-x86_64.pkg.tar.zst"
+    },
+    {
+      "name": "calamares",
+      "version": "3.4.2-1",
+      "sha256": "48333fb646a284ea766830524c165d55bfb96295783954974a5e57d1b6c5bd57",
+      "url": "https://github.com/repo-liskalinux/calamares/releases/download/stable/calamares-3.4.2-1-x86_64.pkg.tar.zst"
     }
   ]
 }
