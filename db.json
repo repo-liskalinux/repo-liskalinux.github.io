@@ -4,13 +4,31 @@
       "name": "linux",
       "version": "7.1.4-1",
       "sha256": "abc123hash...",
-      "url": "https://github.com/repo-liskalinux/kernel/releases/download/v7.1.4-1/linux-7.1.4-1-x86_64.pkg.tar.zst"
+      "url": "https://github.com/repo-liskalinux/kernel/releases/download/stable/linux-7.1.4-1-x86_64.pkg.tar.zst"
     },
     {
       "name": "linux-headers",
       "version": "7.1.4-1",
       "sha256": "def456hash...",
-      "url": "https://github.com/repo-liskalinux/kernel/releases/download/v7.1.4-1/linux-headers-7.1.4-1-x86_64.pkg.tar.zst"
+      "url": "https://github.com/repo-liskalinux/kernel/releases/download/stable/linux-headers-7.1.4-1-x86_64.pkg.tar.zst"
+    },
+    {
+      "name": "lkpm",
+      "version": "1.0.0-1",
+      "sha256": "abc123hash...",
+      "url": "https://github.com/repo-liskalinux/lkpm/releases/download/stable/lkpm-1.0.0-1-x86_64.pkg.tar.zst"
+    },
+    {
+      "name": "lkchroot",
+      "version": "1.0.0-1",
+      "sha256": "abc123hash...",
+      "url": "https://github.com/repo-liskalinux/lkchroot/releases/download/stable/lkchroot-1.0.0-1-x86_64.pkg.tar.zst"
+    },
+    {
+      "name": "lkstrap",
+      "version": "1.0.0-1",
+      "sha256": "abc123hash...",
+      "url": "https://github.com/repo-liskalinux/lkstrap/releases/download/stable/lkstrap-1.0.0-1-x86_64.pkg.tar.zst"
     }
   ]
 }
