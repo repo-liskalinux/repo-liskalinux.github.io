@@ -158,6 +158,7 @@
             const response = await fetch('db.json');
             const data = await response.json();
             allPackages = data.packages || [];
+            allPackages.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
             renderTable(allPackages);
         } catch (error) {
             document.getElementById('packageTable').innerHTML = `
