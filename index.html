@@ -1,199 +1,135 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liska Linux Repository</title>
+    <title>Index of /</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --border-color: #30363d;
-            --text-main: #c9d1d9;
-            --accent-blue: #58a6ff;
-            --accent-green: #3fb950;
-            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --bg: #1a1a24;
+            --surface: #252538;
+            --text: #e2e8f0;
+            --primary: #3b82f6;
+            --border: #334155;
         }
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
+            padding: 20px;
         }
         .container {
-            max-width: 900px;
-            width: 100%;
-        }
-        header {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            margin-bottom: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         h1 {
-            color: var(--accent-blue);
-            font-size: 1.8rem;
-            margin: 0 0 10px 0;
-            font-family: var(--font-mono);
+            color: #fff;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
         }
-        .subtitle {
-            color: #8b949e;
-            font-size: 0.95rem;
-        }
-        .mirror-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 25px;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--accent-green);
-        }
-        .search-box {
+        input {
             width: 100%;
             padding: 12px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 6px;
             color: #fff;
-            font-size: 1rem;
+            font-size: 16px;
             box-sizing: border-box;
-            margin-bottom: 20px;
-            outline: none;
         }
-        .search-box:focus {
-            border-color: var(--accent-blue);
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            background-color: var(--surface);
             border-radius: 6px;
             overflow: hidden;
         }
         th, td {
-            padding: 12px 16px;
+            padding: 14px 20px;
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
         }
         th {
-            background-color: #21262d;
-            color: #8b949e;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            font-family: var(--font-mono);
+            background-color: #1e1e2f;
+            color: #94a3b8;
         }
-        tr:last-child td {
-            border-bottom: none;
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
         }
-        tr:hover {
-            background-color: #1c2128;
-        }
-        .pkg-name {
-            font-family: var(--font-mono);
-            font-weight: bold;
-            color: var(--accent-blue);
-        }
-        .pkg-ver {
-            font-family: var(--font-mono);
-            color: #8b949e;
-        }
-        .badge {
-            background: #238636;
-            color: #fff;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-family: var(--font-mono);
-        }
-        a.btn-download {
-            color: var(--accent-blue);
+        a {
+            color: var(--primary);
             text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
         }
-        a.btn-download:hover {
+        a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <header>
-        <h1>::: Liska Linux Repository :::</h1>
-        <div class="subtitle">Binary package mirror for Liska Package Manager (lkpm)</div>
-    </header>
-    <div class="mirror-box">
-        # Add to /etc/lkpm.d/mirrorlist:<br>
-        [core]<br>
-        https://repo-liskalinux.github.io/
-    </div>
-    <input type="text" id="searchInput" class="search-box" placeholder="Search a package...." onkeyup="filterPackages()">
+    <h1>Index of /linux-repo</h1>
+    <input type="text" id="searchInput" placeholder="Search packages (e.g., openssh, kernel)..." autofocus>
     <table>
         <thead>
             <tr>
-                <th>Package</th>
+                <th>Name</th>
                 <th>Version</th>
-                <th>SHA256</th>
                 <th>Download</th>
             </tr>
         </thead>
-        <tbody id="packageTable">
-            <tr>
-                <td colspan="4" style="text-align: center; color: #8b949e;">Loading packages database....</td>
-            </tr>
+        <tbody id="repoTableBody">
         </tbody>
     </table>
 </div>
 
 <script>
-    let allPackages = [];
-    async function fetchPackages() {
+    const searchInput = document.getElementById('searchInput');
+    const tableBody = document.getElementById('repoTableBody');
+    let repoData = [];
+    async function loadRepo() {
         try {
             const response = await fetch('db.json');
-            const data = await response.json();
-            allPackages = data.packages || [];
-            allPackages.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
-            renderTable(allPackages);
+            repoData = await response.json();
+            renderTable(repoData);
         } catch (error) {
-            document.getElementById('packageTable').innerHTML = `
-                <tr>
-                    <td colspan="4" style="text-align: center; color: #f85149;">
-                        Failed to load db.json!
-                    </td>
-                </tr>`;
+            console.error('Error loading db.json:', error);
+            tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#ef4444;">Error loading db.json. Is the file in the same directory?</td></tr>`;
         }
     }
-    function renderTable(packages) {
-        const tbody = document.getElementById('packageTable');
-        if (packages.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #8b949e;">No package has been found.</td></tr>`;
+    function renderTable(data) {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No packages found</td></tr>`;
             return;
         }
-        tbody.innerHTML = packages.map(pkg => `
-            <tr>
-                <td class="pkg-name">${pkg.name}</td>
-                <td class="pkg-ver">${pkg.version}</td>
-                <td><span class="badge">${pkg.sha256}</span></td>
-                <td><a href="${pkg.url}" class="btn-download" target="_blank">Download (.pkg.tar.zst)</a></td>
-            </tr>
-        `).join('');
+        data.forEach(pkg => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${pkg.name}</strong></td>
+                <td>${pkg.version}</td>
+                <td>${pkg.arch}</td>
+                <td><a href="${pkg.url || '#'}" download>Download</a></td>
+            `;
+            tableBody.appendChild(row);
+        });
     }
-    function filterPackages() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allPackages.filter(pkg => 
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        const filtered = repoData.filter(pkg => 
             pkg.name.toLowerCase().includes(query) || 
             pkg.version.toLowerCase().includes(query)
         );
         renderTable(filtered);
-    }
-    fetchPackages();
+    });
+    loadRepo();
 </script>
 </body>
 </html>
+
   
