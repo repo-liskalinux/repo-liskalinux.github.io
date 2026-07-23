@@ -73,7 +73,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Index of /linux-repo</h1>
+    <h1>Index of /</h1>
     <input type="text" id="searchInput" placeholder="Search packages (e.g., openssh, kernel)..." autofocus>
     <table>
         <thead>
@@ -83,52 +83,16 @@
                 <th>Download</th>
             </tr>
         </thead>
-        <tbody id="repoTableBody">
+        <tbody>
+            <td><strong><a href="iso">iso</a></strong></td>
+            <td>-</td>
+            <td>-</td>
+            <td><strong><a href="x86_64">x86_64</a></strong></td>
+            <td>-</td>
+            <td>-</td>
         </tbody>
     </table>
 </div>
-
-<script>
-    const searchInput = document.getElementById('searchInput');
-    const tableBody = document.getElementById('repoTableBody');
-    let repoData = [];
-    async function loadRepo() {
-        try {
-            const response = await fetch('db.json');
-            repoData = await response.json();
-            renderTable(repoData);
-        } catch (error) {
-            console.error('Error loading db.json:', error);
-            tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#ef4444;">Error loading db.json. Is the file in the same directory?</td></tr>`;
-        }
-    }
-    function renderTable(data) {
-        tableBody.innerHTML = '';
-        if (data.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">No packages found</td></tr>`;
-            return;
-        }
-        data.forEach(pkg => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><strong>${pkg.name}</strong></td>
-                <td>${pkg.version}</td>
-                <td>${pkg.arch}</td>
-                <td><a href="${pkg.url || '#'}" download>Download</a></td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        const filtered = repoData.filter(pkg => 
-            pkg.name.toLowerCase().includes(query) || 
-            pkg.version.toLowerCase().includes(query)
-        );
-        renderTable(filtered);
-    });
-    loadRepo();
-</script>
 </body>
 </html>
 
